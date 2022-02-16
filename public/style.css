@@ -1,0 +1,164 @@
+.nav-link {
+  color: black;
+  width: fit-content;
+  font-size: 20px;
+  line-height: 40px;
+}
+
+i {
+  margin-right: 15px;
+}
+
+.far.fa-star {
+  float: right;
+  margin-top: 13px;
+}
+
+.nav-link:hover {
+  background-color: rgb(245, 238, 238);
+  border-radius: 30px;
+}
+
+.btn.btn-dark.twittericon {
+  width: 175px;
+  border-radius: 20px;
+}
+
+.user_account {
+  padding-top: 50px;
+}
+
+.icon,
+.account_icon {
+  float: left;
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+}
+
+textarea {
+  outline: none;
+}
+
+.card-button {
+  float: right;
+}
+
+.btn-dark:hover {
+  background-color: transparent;
+  color: black;
+}
+
+.comments {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.articleImage {
+  width: 100%;
+  border-radius: 30px;
+}
+
+.suggestItem p {
+  margin-bottom: 0;
+}
+
+.column2 {
+  border: 1px solid rgb(189, 183, 183);
+  padding: 0;
+}
+
+.home {
+  text-decoration: none;
+  font-size: 2rem;
+  color: rgb(51, 45, 45);
+}
+
+.twitter_name {
+  text-decoration: none;
+  font-weight: 700;
+  color: black;
+}
+
+.search-box {
+  background-color: rgb(245, 238, 238);
+  height: 50px;
+  width: 100%;
+  border-radius: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  width: 10%;
+}
+
+.search-txt {
+  border: none;
+  background-color: rgb(245, 238, 238);
+  outline: none;
+  width: 80%;
+}
+
+.trends_for_you {
+  margin-top: 20px;
+  width: 100%;
+  height: fit-content;
+  background-color: rgb(245, 238, 238);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.trend p {
+  margin: 0;
+}
+
+.trend {
+  font-size: 15px;
+  padding-top: 10px;
+}
+
+.trend_name {
+  font-weight: 700;
+}
+
+.showmore {
+  padding: 15px 0 0;
+  color: blue;
+  border: none;
+}
+
+.infobox a {
+  text-decoration: none;
+  color: rgb(43, 42, 42);
+  font-size: 13px;
+  padding-right: 10px;
+}
+
+.infobox a:hover {
+  text-decoration: underline;
+}
+
+.fa-image,
+.fa-smile-beam,
+.fa-calendar-alt,
+.fa-poll {
+  font-size: larger;
+}
+
+@media screen and (max-width: 992px) {
+  .nav-item__text {
+    display: none;
+  }
+  .btn.btn-dark.twittericon {
+    width: 75px;
+    border-radius: 38px;
+    align-items: center;
+    text-align: center;
+  }
+}
