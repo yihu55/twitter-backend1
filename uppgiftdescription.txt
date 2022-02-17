@@ -1,0 +1,93 @@
+Inlämningsuppgift
+Backend 1
+Beskrivning
+Du ska skapa en plattform för micro-bloggande, d.v.s. en webbtjänst inspirerad av Twitter (https://
+twitter.com). Till uppgiften ska du använda Node.js samt en dokument- eller relationsdatabas
+(exempelvis MongoDB eller MySQL).
+Uppgiften ska utföras enskilt, men det är tillåtet att ta hjälp av andra under arbetets gång. Du
+måste dock förstå all kod i ditt projekt samt kunna redogöra för hur koden fungerar för att bli
+godkänd.
+OBS! All kod i projektet ska versionshanteras med Git, och kod ska checkas in kontinuerligt under
+arbetets gång. Det är t.ex. inte godkänt att Git-historiken bara består av en enda commit, eller att
+alla commits har gjorts vid ett och samma tillfälle. Det här är ett krav för att projektet ska bli
+godkänt.
+Inlämning och redovisning
+Deadline för projektet är midnatt den 13:e Mars.
+Vid deadline ska projektet finnas tillgängligt på en Git-tjänst som t.ex. GitHub eller BitBucket. Alla
+commits som görs efter deadline kommer inte tas med i bedömningen av projektet.
+Vid ett speciellt avsatt redovisningstillfälle kommer studenterna få visa sina projekt för kursens
+examinator. Redovisningen går till så att studenten demonstrerar funktionerna som implementeras
+samt svarar på frågor om koden. Koden måste vara tillgänglig för granskning vid
+redovisningstillfället.
+Övriga frågor
+Styling, CSS, etc
+Det är valfritt om man vill använda CSS för att style:a sitt projekt. Det är förstås tillåtet att använda
+CSS i sitt projektet, men tänk på att det inte påverkar betyget!
+Frontend
+Det är inte ett krav att använda EJS för att generera HTML, så det går bra att använda t.ex. React
+som frontend och låta Node.js agera som API.
+Kravspecifikation
+Kravspecifkationen är indelad i två delar, en Godkänt-del samt en Väl Godkänt-del. För att få
+Godkänt på uppgiften måste man implementera alla krav i G-delen. För att få Väl Godkänt
+behöver man implementera minst ett av kraven från VG-delen.
+---------------------------------------------------------------
+Krav för Godkänt
+Skapa konto
+En ny användare ska kunna skapa ett konto på tjänsten.
+För att skapa ett konto matar användaren in ett användarnamn samt ett lösenord. Det ska inte gå
+att skapa flera användare med samma användarnamn. Det ska inte heller gå att mata in ett tomt
+användarnamn eller lösenord.
+In- och utloggning
+Efter att man skapat ett konto ska man kunna logga in på tjänsten genom att ange sitt
+användarnamn och lösenord.
+En inloggad användare ska även kunna logga ut.
+Redigera användarprofil
+Varje användare ska ha en användarprofil som består av en profilbild, ett fullständigt namn samt
+en email-adress. Det ska vara frivilligt för användaren om hen vill lägga till information i sin
+användarprofil.
+En inloggad användare ska kunna lägga till och redigera information i sin användarprofil. För att
+uppdatera sin profilbild ska användaren kunna ladda upp en bild från sin hårddisk.
+Skapa inlägg
+En inloggad användare ska kunna skapa inlägg.
+Ett inlägg består av en text, som ska vara begränsad till max 140 tecken. Tiden och datumet när
+inlägget gjordes ska sparas i databasen.
+Läsa inlägg
+Det ska finnas en sida där alla användares inlägg listas. Varje inlägg i listan ska innehålla:
+• Profilbild och användarnamn för den som skrev inlägget
+• Inläggets innehåll
+• Tid och datum när inlägget skapades
+Inläggen ska sorteras efter datum, med det senaste inlägget först.
+Profilbilden och användarnamnet i ett inlägg ska länka till respektive användares profilsida (se
+nedan).
+Ingen inloggning ska krävas för att läsa inlägg.
+Profilsidor
+Varje användare ska ha en profilsida. På profilsidan ska informationen från användarens profil
+visas, samt en lista av hennes inlägg. Inläggen ska ha samma utseende och sortering som på
+sidan för att “läsa inlägg” (se ovan).
+---------------------------------------------------------------------
+Krav för Väl Godkänt
+För att få VG på uppgiften måste man uppfölja G-kraven (se ovan) samt implementera minst en av
+funktionerna nedan:
+Följare
+En inloggad användare ska kunna “följa” en annan användare genom att besöka dennes profilsida
+och klicka på en “Följ”-länk. Man ska även kunna “avfölja” användare på samma sätt.
+Varje användares profilsida ska innehålla två räknare som visar:
+1. Hur många användare den här användaren följer
+2. Hur många användare som följer den här användaren
+Ändra så att användare bara ser inlägg från användare som de följer när de besöker “Läsa
+inlägg”-sidan när de är inloggade. (I utloggat läge ska inlägg från alla användare visas)
+Nya inlägg
+Om en annan användare skapar ett inlägg medan man är inne på “Läs inlägg”-sidan ska en ikon
+visas högst upp på sidan som visar att nya inlägg finns att hämta. Använd antingen socket.io eller
+Server-Sent Events för att implementera detta.
+Klickar man på ikonen ska de nya inläggen visas, antingen genom att ladda om sidan eller att man
+laddar de nya inläggen med JavaScript och lägger dem högst upp i listan.
+OBS! Om du implementerat funktionen “Följare”, se till att ikonen enbart visas om man följer
+användaren som skapade inlägget (givet att man är inloggad)!
+Hashtags
+Genom att skriva ett “#”-tecken följt av ett ord ska man kunna skapa en “hashtag” i sitt inlägg,
+exempelvis “#javascript” eller “#backend1”. Hashtaggar kan förekomma var som helst i ett inlägg,
+och ett inlägg kan ha ett godtyckligt antal hashtaggar.
+Gör så att hashtaggar i inlägg blir klickbara länkar. Länkarna ska leda till en lista med alla inlägg
+som innehåller den givna hashtaggen, sorterade på datum med nyast inlägg först. Använd
+Regular Expressions för att hitta hashtaggar i inlägg.

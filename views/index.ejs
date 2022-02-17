@@ -59,7 +59,7 @@
                             <span class="nav-item__text">Lists</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="/profile">
                             <span><i class="far fa-user-circle"></i></span>
                             <span class="nav-item__text">Profile</span></a>
                     </li>
@@ -74,11 +74,12 @@
                     </li>
                     <li>
                         <div class="user_account ">
-                            <a href="# "><img class="account_icon " src="https://pbs.twimg.com/profile_images/1455181325489553418/RbbUMWoQ_bigger.png " alt="icon "></a>
-                            <a href="mailto:veronicayi@msn.com " class="text-decoration-none d-md-block d-none ">veronicayi@msn.com</a><br>
-                            <span class="d-md-block d-none ">Yi</span>
+                            <a href="# "><img class="account_icon " src="https://pbs.twimg.com/profile_images/1455181325489553418/RbbUMWoQ_bigger.png " alt="icon "></a><br>
+                            <a class="text-decoration-none d-md-block d-none "><%= user.username%></a><br>
+                            
                         </div>
                     </li>
+                    <li><a href="/createuser">create a user</a></li>
                 </ul>
 
             </div>
@@ -99,8 +100,9 @@
                         <div class="col-2">
                             <img class="icon" src="https://pbs.twimg.com/profile_images/1455181325489553418/RbbUMWoQ_bigger.png" alt="icon">
                         </div>
-                        <div class="col-8">
-                            <textarea class="bg-light border-0" name="" id="" cols="35" rows="4" class="border-0" placeholder="What are you thinking now?"></textarea>
+                        <form class="col-8" method="POST" name="/post">
+                            <textarea class="bg-light border-0" name="content" id="" cols="35" rows="4" class="border-0" placeholder="What are you thinking now?"></textarea>
+                            
                             <div>
                                 <span aria-lable="Add photo or video" role="button">
                             <i class="fas fa-image "></i></span>
@@ -109,10 +111,9 @@
                                     <i class="fas fa-poll"></i></span>
                                 <span aria-lable="Scheduale" role="button"><i class="far fa-calendar-alt"></i></span>
                             </div>
-                        </div>
-                        <div class="col-2">
-                            <button class="btn btn-dark">Publish</button>
-                        </div>
+                            <button class="btn btn-dark" type="submit">Publish</button>
+                        </form>
+                      
                     </div>
                 </div>
                 <hr>
