@@ -1,0 +1,10 @@
+<%-include("partials/header.ejs",{title:"user posts"}) %>
+
+    <p>Twitter user : <%= user.username %></p>
+    <section>
+    <% posts.forEach(post=>{%>
+        <p>content<%= post.content%> created at <%= post.createdAt%></p>
+        
+    <%})%>
+    </section> 
+<%-include ("partials/footer.ejs")%>

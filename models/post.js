@@ -4,11 +4,10 @@ const moment = require("moment");
 const postsSchema = new mongoose.Schema({
   content: { type: String, maxLength: 140 },
   createdAt: {
-    type: Date,
+    type: String,
     immutable: true,
-    default: () => moment().format(),
+    default: () => moment().format("dddd,MMMM Do YYYY, h:mm:ss a"),
   },
-  username: { type: mongoose.Schema.Types.ObjectId, ref: "TwitterUser" },
 });
 const Post = mongoose.model("Post", postsSchema);
 

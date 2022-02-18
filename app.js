@@ -21,9 +21,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //users homepage
 app.get("/home", async (req, res) => {
-  const user = await TwitterUser.findOne({ username: "yi.hu" }).exec();
   try {
-    res.render("index.ejs", { user });
+    const user = await TwitterUser.findOne({ username: "Britt Olsson" }).exec();
+    const posts = await Post.find();
+    res.render("index.ejs", { user, posts });
   } catch (err) {
     console.log(err.message);
   }
@@ -54,30 +55,47 @@ app.get("/login", (req, res) => {
 // login authentication
 app.post("/login", (req, res) => {
   //kod for authentication
-  res.render("index.ejs");
+  res.redirect("index.ejs");
 });
-
+app.post("/home", (req, res, next) => {
+  Post.create(req.body, async (err, post) => {
+    if (err) {
+      next(err);
+    } else {
+      const user = await TwitterUser.findOne({ username: "Britt Olsson" });
+      user.posts = post._id;
+      user.save((error, user) => {
+        if (error) {
+          next(error);
+        } else {
+          return res.redirect("home");
+        }
+      });
+    }
+  });
+});
 //user create a post , have to modify the code
-app.post("/home", async (req, res, next) => {
-  const post = await new Post(req.body);
-  console.log(post);
-  try {
-    await post.save();
-    res.redirect("/home");
-  } catch (err) {
-    next(err.message);
-  }
-});
+// app.post("/home", async (req, res, next) => {
+//   const post = await new Post(req.body);
+//   console.log(post);
+//   try {
+//     await post.save();
+//     res.redirect("/home");
+//   } catch (err) {
+//     next(err.message);
+//   }
+// });
 
 //go to the specific users page when click en user icon and print all the posts
 app.get("/user/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
-    const user = await TwitterUser.find({ _id: userId })
-      .populate("post")
-      .exec();
     const posts = await Post.find();
-    res.render("index.ejs", { user, posts });
+    const user = await TwitterUser.findOne({ _id: userId })
+      .populate("posts")
+      .exec();
+
+    res.render("usersPosts.ejs", { user, posts });
   } catch (err) {
     console.log(err.message);
   }
