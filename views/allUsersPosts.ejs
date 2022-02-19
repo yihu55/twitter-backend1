@@ -1,0 +1,4 @@
+<h1>all posts</h1>
+<% posts.forEach(post=>{%>
+  <li><%=post.content%> created by : <%= post._creator.username%></li>
+<%})%>

@@ -1,5 +1,5 @@
 <%- include("partials/header.ejs",{title:"Twitter"}) %>
-<%- include("partials/navigation.ejs",{user:user}) %>
+<%- include("partials/navigation.ejs") %>
  
     <div class="col-lg-6 col-md-9 col-sm-10 column2">
         <div class="sticky-top bg-light">
@@ -12,6 +12,7 @@
             </svg>
             <hr>
         </div>
+        <!--post column-->
         <div class="container">
             <div class="row">
                 <div class="col-2">
@@ -34,14 +35,14 @@
             </div>
         </div>
         <hr>
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <%-include("partials/posts.ejs")%>
-                </div>
+       
             
-            </div>
-        </div>
+                
+        <%-include("allUsersPosts.ejs"),{posts}%>
+                
+            
+           
+        
         <hr>
    
     </div>

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const moment = require("moment");
 
 const postsSchema = new mongoose.Schema({
+  _creator: { type: mongoose.Schema.Types.ObjectId, ref: "TwitterUser" },
   content: { type: String, maxLength: 140 },
   createdAt: {
     type: String,
