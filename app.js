@@ -1,10 +1,11 @@
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
+const profileRouter = require("./routes/profile");
+
 const { TwitterUser } = require("./models/twitterUser");
 const { Post } = require("./models/post");
 const bodyParser = require("body-parser");
-const { render, redirect } = require("express/lib/response");
 
 const app = express();
 const PORT = 3000;
@@ -89,15 +90,7 @@ app.get("/user/:userId", async (req, res) => {
   }
 });
 
-//go to profile page when click profile icon
-app.get("/profile", (req, res) => {
-  res.render("profile.ejs");
-});
-
-//modify the profile
-app.post("/profile", (req, res) => {
-  res.render("profile.ejs");
-});
+app.use("/profile", profileRouter);
 
 app.listen(3000, () => {
   console.log(`Server running on port ${PORT}`);
