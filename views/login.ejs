@@ -1,4 +1,10 @@
 <%-include("partials/header.ejs",{title:"Log in"})%>
 
-    <h1>login</h1>
+    <form method="POST" action="/login">
+        <label for="username">username</label><br>
+        <input type="text" name="username" ><br>
+        <label for="password">password</label><br>
+        <input type="password" name="password" ><br>
+        <input type="submit" >
+    </form>
 <%-include("partials/footer.ejs")%>

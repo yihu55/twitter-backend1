@@ -23,15 +23,20 @@ const upload = multer({
 
 //go to profile page when click profile icon
 router.get("/", (req, res) => {
-  res.render("profile.ejs");
+  console.log(req.user.username);
+  res.render("profile.ejs", { username: req.user.username });
 });
 
 //modify the profile
 router.post("/", upload.single("image"), async (req, res, next) => {
   console.log(req.file);
+  console.log(req.user.username);
   try {
-    const profile = await TwitterUser.updateOne(
-      { username: "Britt Olsson" },
+    //const user = { username: "anna" };
+    const username = req.user.username;
+    console.log("USERNAME", username);
+    await TwitterUser.updateOne(
+      { username: username },
       {
         $set: {
           email: req.body.email,
@@ -40,10 +45,13 @@ router.post("/", upload.single("image"), async (req, res, next) => {
         },
       }
     );
-
     res.redirect("/profile");
   } catch (err) {
     next(err);
   }
 });
+
+// router.post("/", (req, res) => {
+//   console.log(req.user.username);
+// });
 module.exports = router;
