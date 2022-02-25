@@ -11,6 +11,7 @@ const session = require("express-session");
 
 const profileRouter = require("./routes/profile");
 const createUserRouter = require("./routes/createUser");
+const homeRouter = require("./routes/home");
 
 const { TwitterUser } = require("./models/twitterUser");
 const { Post } = require("./models/post");
@@ -44,7 +45,7 @@ passport.deserializeUser(TwitterUser.deserializeUser());
 
 app.use("/createuser", createUserRouter);
 
-// login page
+//login page
 app.get("/login", (req, res) => {
   res.render("login.ejs");
 });
@@ -61,39 +62,6 @@ app.post(
     res.redirect("/home");
   }
 );
-//render all posts
-app.get("/home", async (req, res, next) => {
-  try {
-    // find all posts combine users table with _creator as link
-    const posts = await Post.find().populate("_creator").exec();
-
-    res.render("index.ejs", { username: req.user.username, posts });
-  } catch (err) {
-    next(err);
-  }
-});
-
-// send a post to server then render home page, data stored both in twitteruser and posts schema
-app.post("/home", async (req, res, next) => {
-  try {
-    console.log("name", req.user.username);
-    const username = req.user.username;
-    const user = await TwitterUser.findOne({ username: username });
-    console.log("user", user);
-    const post = await new Post({
-      _creator: user._id,
-      content: req.body.content,
-    });
-    console.log(user.posts);
-    post.save();
-
-    //user.posts.push(post._id);
-    TwitterUser.updateOne(user, { $push: { posts: post._id } });
-    res.redirect("home");
-  } catch (err) {
-    next(err);
-  }
-});
 
 //go to the specific users page when click en user icon and print all the posts
 app.get("/user/:userId", async (req, res) => {
@@ -101,14 +69,18 @@ app.get("/user/:userId", async (req, res) => {
     const userId = req.params.userId;
     const posts = await Post.find({ _creator: userId })
       .populate("_creator")
+      .sort({ createdAt: -1 }) //desc createAt time
       .exec();
 
-    res.render("userPosts.ejs", { posts });
+    res.render("userPosts.ejs", {
+      posts,
+      //username: req.user.name,//return the inlogged username
+    });
   } catch (err) {
     console.log(err.message);
   }
 });
-
+app.use("/home", homeRouter);
 app.use("/profile", profileRouter);
 
 connect();

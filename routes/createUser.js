@@ -13,12 +13,15 @@ router.post("/", async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const user = new TwitterUser({ username });
+
+    //use passport to hash the password then store in db
     await user.setPassword(password);
-    //console.log(user);
+
     await user.save();
     res.redirect("/login");
   } catch (error) {
     console.log(error.message);
+    res.redirect("/createuser");
   }
 });
 
