@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
@@ -29,7 +32,7 @@ app.use("/public", express.static(STATIC_ROOT));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   session({
-    secret: "asdf1234",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
