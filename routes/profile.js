@@ -21,12 +21,23 @@ const upload = multer({
 });
 
 //go to profile page when click profile icon
-router.get("/", (req, res) => {
-  console.log(req.user.username);
-  res.render("profile.ejs", { username: req.user.username });
+router.get("/", async (req, res, next) => {
+  try {
+    const username = req.user.username;
+    const user = await TwitterUser.findOne({ username: username });
+    console.log(user);
+
+    res.render("profile.ejs", {
+      email: user.email,
+      img: user.img,
+      name: user.name,
+    }); //{ username: req.user.username })
+  } catch (err) {
+    next(err);
+  }
 });
 
-//modify the profile
+//modify the profile //if email name or img is empty, they updates empty. behöver åtgärda
 router.post("/", upload.single("image"), async (req, res, next) => {
   console.log(req.file);
   console.log(req.user.username);
@@ -44,6 +55,7 @@ router.post("/", upload.single("image"), async (req, res, next) => {
         },
       }
     );
+
     res.redirect("/profile");
   } catch (err) {
     next(err);
