@@ -1,7 +1,9 @@
 <%- include("partials/header.ejs",{title:"Twitter"}) %>
 <%- include("partials/navigation.ejs") %>
  
-    <div class="col-lg-6 col-md-9 col-sm-10 column2">
+
+<div class="col-lg-6 col-md-9 col-sm-10 column2">
+        <!--home banner-->
         <div class="sticky-top bg-light">
             <h2 class="d-inline"><a href="#" class="home ps-3">Home</a></h2>
             <svg class="float-end text-primary mt-2 " xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
@@ -37,13 +39,9 @@
         <hr>
         
             
-                
+        <!--when a user deleted in usertable, the posts remained in posts table, therefore causes error to render the home page-->      
         <%-include("allUsersPosts.ejs"),{posts}%>
                 
-            
-           
-        
-        <hr>
    
     </div>
 

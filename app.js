@@ -1,25 +1,28 @@
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const connect = require("./config/db");
+const session = require("express-session");
+
 const profileRouter = require("./routes/profile");
+const createUserRouter = require("./routes/createUser");
 
 const { TwitterUser } = require("./models/twitterUser");
 const { Post } = require("./models/post");
-const bodyParser = require("body-parser");
-const passport = require("passport");
-const session = require("express-session");
 
 const app = express();
 const PORT = 3000;
 const STATIC_ROOT = path.join(__dirname, "public");
 
-const secured = (req, res, next) => {
-  if (req.user) {
-    return next();
-  }
-  req.session.returnTo = req.originalUrl;
-  res.redirect("/login");
-};
+// const secured = (req, res, next) => {
+//   if (req.user) {
+//     return next();
+//   }
+//   req.session.returnTo = req.originalUrl;
+//   res.redirect("/login");
+// };
 
 app.use("/public", express.static(STATIC_ROOT));
 //app.use(express.urlencoded());
@@ -36,24 +39,7 @@ passport.use(TwitterUser.createStrategy());
 passport.serializeUser(TwitterUser.serializeUser());
 passport.deserializeUser(TwitterUser.deserializeUser());
 
-//create user page
-app.get("/createuser", (req, res) => {
-  res.render("createUser.ejs");
-});
-
-//create a new user
-app.post("/createuser", async (req, res, next) => {
-  try {
-    const { username, password } = req.body;
-    const user = new TwitterUser({ username });
-    await user.setPassword(password);
-    //console.log(user);
-    await user.save();
-    res.redirect("/login");
-  } catch (error) {
-    console.log(error.message);
-  }
-});
+app.use("/createuser", createUserRouter);
 
 // login page
 app.get("/login", (req, res) => {
@@ -72,37 +58,12 @@ app.post(
     res.redirect("/home");
   }
 );
-//req.user.username
-//users homepage render all followed posts
-// app.get("/home", async (req, res) => {
-//   // try {
-//   //   const username = req.user.username;
-//   //   console.log(username);
-//   //
-//   //   res.render("index.ejs", { username, posts });
-//   // } catch (err) {
-//   //   console.log(err.message);
-//   // }
-//   if (req.user) {
-//     const posts = await Post.find().populate("_creator").exec();
-//     res.render("index.ejs", posts);
-//   } else {
-//     redirect("/login");
-//   }
-// });
-app.get("/home", secured, async (req, res, next) => {
-  // try {
-  //   if (req.user) {
-  //     const posts = await Post.find().populate("_creator").exec();
-  //     res.render("index.ejs", { username: req.user.username, posts });
-  //   } else {
-  //     res.redirect("/login");
-  //   }
-  // } catch (err) {
-  //   next(err);
-  // }
+//render all posts
+app.get("/home", async (req, res, next) => {
   try {
+    // find all posts combine users table with _creator as link
     const posts = await Post.find().populate("_creator").exec();
+
     res.render("index.ejs", { username: req.user.username, posts });
   } catch (err) {
     next(err);
@@ -115,13 +76,16 @@ app.post("/home", async (req, res, next) => {
     console.log("name", req.user.username);
     const username = req.user.username;
     const user = await TwitterUser.findOne({ username: username });
+    console.log("user", user);
     const post = await new Post({
       _creator: user._id,
       content: req.body.content,
     });
-    console.log(req.user);
+    console.log(user.posts);
     post.save();
-    user.posts.push(post._id);
+
+    //user.posts.push(post._id);
+    TwitterUser.updateOne(user, { $push: { posts: post._id } });
     res.redirect("home");
   } catch (err) {
     next(err);
@@ -132,27 +96,19 @@ app.post("/home", async (req, res, next) => {
 app.get("/user/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
-    const posts = await Post.find({ _creator: userId });
-    const user = await TwitterUser.findOne({ _id: userId })
-      .populate("posts")
+    const posts = await Post.find({ _creator: userId })
+      .populate("_creator")
       .exec();
 
-    res.render("userPosts.ejs", { user, posts });
+    res.render("userPosts.ejs", { posts });
   } catch (err) {
     console.log(err.message);
   }
 });
 
-app.use("/profile", secured, profileRouter);
+app.use("/profile", profileRouter);
 
-const connect = async () => {
-  await mongoose.connect("mongodb://localhost/twitterUsers");
-  return mongoose.connection;
-};
 connect();
-
 app.listen(3000, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-//exports.connect = connect;
