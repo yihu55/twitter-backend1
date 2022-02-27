@@ -3,52 +3,62 @@
 <%- include("partials/navigation.ejs") %>
  
 <!--home banner-->
-    <div class="col-lg-6 col-md-9 col-sm-10 column2">
-        <div class="sticky-top bg-light">
-            <h2 class="d-inline"><a href="#" class="home ps-3">Home</a></h2>
-            <svg class="float-end text-primary mt-2 " xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
-                <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361
-                    0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828l.645-1.937zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.734 1.734 0 0 0 4.593 5.69l-.387 1.162a.217.217
-                    0 0 1-.412 0L3.407 5.69A1.734 1.734 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.734 1.734 0 0 0 3.407 2.31l.387-1.162zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0
-                    1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L10.863.1z "/>
-            </svg>
-            <hr>
-        </div>
+<div class="col-lg-6 col-md-9 col-sm-10 column2">
+    <div class="sticky-top bg-light">
+        <h2 class="d-inline"><a href="#" class="home ps-3">Home</a></h2>
+        <svg class="float-end text-primary mt-2 " xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
+            <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361
+                0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828l.645-1.937zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.734 1.734 0 0 0 4.593 5.69l-.387 1.162a.217.217
+                0 0 1-.412 0L3.407 5.69A1.734 1.734 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.734 1.734 0 0 0 3.407 2.31l.387-1.162zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0
+                1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L10.863.1z "/>
+        </svg>
+        <hr>
+    </div>
 <!--post column-->
-<% posts.forEach(post=>{%>
-        <div class="container">
-            <div class="row">
-                
-                <div class="col-2">
-                    <% if(post._creator.img){%>
-                      <img class="icon" src="../public/uploads/images/<%= post._creator.img %>"/>
-                    <%} else {%>
-                      <img class="icon" src="https://pbs.twimg.com/profile_images/1455181325489553418/RbbUMWoQ_bigger.png"/>
-                   <% }%>
-                    
-                </div>
-                <div class="col-10">
-                    <p><a href="/user/<%=post._creator._id%>" class="twitter_name"></a><i class="fas fa-ellipsis-h float-end"></i> </p>
-                
-                    <p><%= post.content %> created at <%= post.createdAt%></p>
-                  
-                    <div class="comments">
-                        <i class="far fa-comment">1</i>
-                        <i class="fas fa-retweet">2</i>
-                        <i class="far fa-heart">3</i>
-                        <i class="far fa-share-square"></i>
-                    </div>
-                </div>
-
-
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <img src="../public/uploads/images/<%=img%>" alt="userprofileimage" class="img-fluid">
             </div>
         </div>
-        <%})%>
-        <hr>        
+        <div class="row">
+            <div class="col-12 d-flex justify-content-end">
+                <button class="btn btn-dark rounded  ">follow</button>
+            </div>
+        </div>
+    
+    <% posts.forEach(post=>{%>
+    
+        <div class="row">
+            
+            <div class="col-2">
+                <% if(post._creator.img){%>
+                    <img class="icon" src="../public/uploads/images/<%= post._creator.img %>"/>
+                <%} else {%>
+                    <img class="icon" src="https://pbs.twimg.com/profile_images/1455181325489553418/RbbUMWoQ_bigger.png"/>
+                <% }%>
                 
-        
-   
-    </div>
+            </div>
+            <div class="col-10">
+                <p><a href="/user/<%=post._creator._id%>" class="twitter_name"></a><i class="fas fa-ellipsis-h float-end"></i> </p>
+            
+                <p><%= post.content %></p>
+                <p> created at <%= post.createdAt%></p>
+                
+                <div class="comments">
+                    <i class="far fa-comment">1</i>
+                    <i class="fas fa-retweet">2</i>
+                    <i class="far fa-heart">3</i>
+                    <i class="far fa-share-square"></i>
+                </div>
+            </div>
+
+            <hr>
+        </div>
+    
+    <%})%>
+</div>        
+</div>
 
 <%- include("partials/aside.ejs") %>
 <%- include("partials/footer.ejs") %>

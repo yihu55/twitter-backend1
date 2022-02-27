@@ -1,10 +1,11 @@
 <%-include("partials/header.ejs",{title:"Create User"})%>
-
+    <h1>Create a new user</h1>
     <form method="POST" action="/createuser">
         <label for="username">username</label><br>
         <input type="text" name="username" ><br>
         <label for="password">password</label><br>
         <input type="password" name="password" ><br>
-        <input type="submit" >
+        <input type="submit" value="Create User" >
     </form>
+    <a href="/login">already user, login</a>
 <%-include("partials/footer.ejs")%>

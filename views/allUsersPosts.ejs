@@ -13,8 +13,9 @@
           </div>
           <div class="col-10">
               <p><a href="/user/<%=post._creator._id%>" class="twitter_name"><%=post._creator.username%></a><i class="fas fa-ellipsis-h float-end"></i> </p>
-              <p></p>
-              <p><%= post.content %> created at <%= post.createdAt%></p>
+              
+              <p><%= post.content %> </p>
+              <p>created at <%= post.createdAt%></p>
             
               <div class="comments">
                   <i class="far fa-comment">1</i>
