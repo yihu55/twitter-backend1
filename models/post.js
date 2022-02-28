@@ -7,7 +7,7 @@ const postsSchema = new mongoose.Schema({
   createdAt: {
     type: String,
     immutable: true,
-    default: () => moment().format("dddd,MMMM Do YYYY, h:mm:ss a"),
+    default: () => moment().format("YYYY-MM-DD, HH:mm:ss"),
   },
 });
 const Post = mongoose.model("Post", postsSchema);

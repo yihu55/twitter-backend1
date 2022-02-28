@@ -8,7 +8,7 @@ router.get("/", async (req, res, next) => {
   try {
     //find all posts combine users table with _creator as link
     const posts = await Post.find({})
-      //.sort({ createdAt: -1 })
+      .sort({ createdAt: -1 })
       .populate("_creator")
       .exec();
 
