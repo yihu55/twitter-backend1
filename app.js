@@ -13,6 +13,7 @@ const profileRouter = require("./routes/profile");
 const createUserRouter = require("./routes/createUser");
 const homeRouter = require("./routes/home");
 const loginRouter = require("./routes/login");
+const publicRouter = require("./routes/public");
 
 const { TwitterUser } = require("./models/twitterUser");
 const { Post } = require("./models/post");
@@ -40,47 +41,33 @@ app.use(
   })
 );
 app.use(passport.authenticate("session"));
+app.use("/public", publicRouter);
 app.use("/createuser", createUserRouter);
 app.use("/", loginRouter);
 app.use("/home", secured, homeRouter);
 app.use("/profile", secured, profileRouter);
 
-//render all posts
-app.get("/", async (req, res, next) => {
-  try {
-    //find all posts combine users table with _creator as link
-    const posts = await Post.find({})
-      //.sort({ createdAt: -1 })
-      .populate("_creator")
-      .exec();
-
-    res.render("noauthhome.ejs", { posts });
-  } catch (err) {
-    next(err);
-  }
-});
-
 //go to the specific users page when click en user icon and print all the posts
-app.get("/user/:userId", async (req, res) => {
-  try {
-    const userId = req.params.userId;
-    const user = await TwitterUser.findOne({ _id: userId });
-    const img = await user.img;
-    console.log(user);
-    const posts = await Post.find({ _creator: userId })
-      .populate("_creator")
-      .sort({ createdAt: -1 }) //desc createAt time
-      .exec();
+// app.get("/users/:userId", async (req, res) => {
+//   try {
+//     const userId = req.params.userId;
+//     const user = await TwitterUser.findOne({ _id: userId });
+//     const img = await user.img;
+//     //console.log(user);
+//     const posts = await Post.find({ _creator: userId })
+//       .populate("_creator")
+//       .sort({ createdAt: -1 }) //desc createAt time
+//       .exec();
 
-    res.render("userPosts.ejs", {
-      posts,
-      img,
-      //username: req.user.name,//return the inlogged username
-    });
-  } catch (err) {
-    console.log(err.message);
-  }
-});
+//     res.render("userPosts.ejs", {
+//       posts,
+//       img,
+//       //username: req.user.name,//return the inlogged username
+//     });
+//   } catch (err) {
+//     console.log(err.message);
+//   }
+// });
 
 connect();
 app.listen(3000, () => {

@@ -1,0 +1,45 @@
+<%- include("partials/header.ejs",{title:"Twitter public"}) %>
+<%- include("partials/navigation.ejs") %>
+ 
+
+
+<div class="col-lg-6 col-md-9 col-sm-10 column2">     
+    <h1>Twitter public homepage</h1>
+    <hr>
+        <!--when a user deleted in usertable, the posts remained in posts table, therefore causes error to render the home page-->      
+<% posts.forEach(post=>{%>
+    <div class="container">
+      <div class="row">
+            <div class="col-2">
+                <% if(post._creator.img){%>
+                  <img class="icon" src="../public/uploads/images/<%= post._creator.img %>"/>
+                <%} else {%>
+                  <img class="icon" src="https://pbs.twimg.com/profile_images/1455181325489553418/RbbUMWoQ_bigger.png"/>
+               <% }%>
+                
+            </div>
+            <div class="col-10">
+                <p><a href="/public/<%=post._creator._id%>" class="twitter_name"><%=post._creator.username%></a><i class="fas fa-ellipsis-h float-end"></i> </p>
+                
+                <p><%= post.content %> </p>
+                <p>created at <%= post.createdAt%></p>
+              
+                <div class="comments">
+                    <i class="far fa-comment">1</i>
+                    <i class="fas fa-retweet">2</i>
+                    <i class="far fa-heart">3</i>
+                    <i class="far fa-share-square"></i>
+                </div>
+            </div>
+  
+  
+        </div>
+    </div>
+  
+    <hr>        
+    <%})%>      -->
+                
+</div>
+
+<%- include("partials/aside.ejs") %>
+<%- include("partials/footer.ejs") %>
