@@ -10,6 +10,10 @@ const twitterUserSchema = new mongoose.Schema({
   },
   email: { type: String },
   name: { type: String },
+  //a collection this user following
+  friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "TwitterUser" }],
+  //a collection this user followed by
+  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "TwitterUser" }],
 });
 twitterUserSchema.plugin(passportLocalMongoose);
 const TwitterUser = mongoose.model("TwitterUser", twitterUserSchema);
