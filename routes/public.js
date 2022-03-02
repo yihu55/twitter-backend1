@@ -23,7 +23,7 @@ router.get("/:userId", async (req, res) => {
     console.log(req.params);
     const user = await TwitterUser.findOne({ _id: userId });
     const img = await user.img;
-    console.log(user);
+    console.log(req.user);//undefined
     const posts = await Post.find({ _creator: userId })
       .populate("_creator")
       .sort({ createdAt: -1 }) //desc createAt time
@@ -38,4 +38,5 @@ router.get("/:userId", async (req, res) => {
     console.log(err.message);
   }
 });
+
 module.exports = router;

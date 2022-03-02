@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema.Types;
 const passportLocalMongoose = require("passport-local-mongoose");
 
 const twitterUserSchema = new mongoose.Schema({
@@ -11,9 +12,17 @@ const twitterUserSchema = new mongoose.Schema({
   email: { type: String },
   name: { type: String },
   //a collection this user following
-  friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "TwitterUser" }],
-  //a collection this user followed by
-  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "TwitterUser" }],
+  followers: [{ type: ObjectId, ref: "TwitterUser" }],
+  // //a collection this user followed by
+  following: [{ type: ObjectId, ref: "TwitterUser" }],
+  // followers: {
+  //   type: Array,
+  //   default: [],
+  // },
+  // following: {
+  //   type: Array,
+  //   default: [],
+  // },
 });
 twitterUserSchema.plugin(passportLocalMongoose);
 const TwitterUser = mongoose.model("TwitterUser", twitterUserSchema);

@@ -23,9 +23,9 @@
         </div>
         <div class="row">
             <div class="col-12 d-flex justify-content-end">
-                <form action="/friends/:userId" method="PUT">
-                <input class="btn btn-dark rounded" type="submit" value="follow"></input>
-            </form>
+                <!--form action="/home/:userId/follow" method="PUT">
+                <input class="btn btn-dark rounded" type="submit"></input>
+                </form-->
             </div>
         </div>
     
@@ -57,6 +57,9 @@
 
             <hr>
         </div>
+        <form action="/home/<%= post._creator.id%>/follow" method="POST">
+            <input class="btn btn-dark rounded" type="submit"></input>
+            </form>
     
     <%})%>
 </div>        
