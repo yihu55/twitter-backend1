@@ -27,18 +27,14 @@ router.get("/", async (req, res, next) => {
       .populate("_creator");
 
     //ids not include followingids
-    const notyetfollowing = await TwitterUser.find({
+    const notyetfollowings = await TwitterUser.find({
       _id: { $nin: followingIds },
     });
-    console.log(notyetfollowing);
-    //console.log(posts);
-
-    //res.send("hej");
 
     res.render("index.ejs", {
       username: req.user.username,
       posts,
-      notyetfollowing,
+      notyetfollowings,
     });
   } catch (err) {
     next(err);
