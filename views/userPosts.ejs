@@ -21,14 +21,28 @@
                 <img src="../public/uploads/images/<%=img%>" alt="userprofileimage" class="img-fluid">
             </div>
         </div>
-        <div class="row">
+
+        
+       
+         <% if( user.followers.includes(currentUser.id)){ %>
+            <div class="row">
             <div class="col-12 d-flex justify-content-end">
-                <!--form action="/home/:userId/follow" method="PUT">
-                <input class="btn btn-dark rounded" type="submit"></input>
-                </form-->
+                <form action="/home/<%= userId%>/unfollow" method="POST">
+                <button class="btn btn-dark rounded">unfollow</button>
+                </form>
             </div>
         </div>
-    
+       <% } else {%>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-end">
+                <form action="/home/<%= userId%>/follow" method="POST">
+                    <button class="btn btn-dark rounded">follow</button>
+                </form>
+           </div>
+       </div>
+       <%}%>
+     
+
     <% posts.forEach(post=>{%>
     
         <div class="row">
@@ -57,9 +71,7 @@
 
             <hr>
         </div>
-        <form action="/home/<%= post._creator.id%>/follow" method="POST">
-            <input class="btn btn-dark rounded" type="submit"></input>
-            </form>
+       
     
     <%})%>
 </div>        

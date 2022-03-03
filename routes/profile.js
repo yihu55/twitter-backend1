@@ -25,12 +25,22 @@ router.get("/", async (req, res, next) => {
   try {
     const username = req.user.username;
     const user = await TwitterUser.findOne({ username: username });
-    console.log(user);
+    const countFollowing = await TwitterUser.aggregate([
+      { $match: { username: username } },
+      { $project: { result: { $size: ["$following"] } } },
+    ]);
+    const countFollowers = await TwitterUser.aggregate([
+      { $match: { username: username } },
+      { $project: { result: { $size: ["$followers"] } } },
+    ]);
+    console.log(countFollowers[0].result, countFollowing[0].result);
 
     res.render("profile.ejs", {
       email: user.email,
       img: user.img,
       name: user.name,
+      followers: countFollowers[0].result,
+      following: countFollowing[0].result,
     }); //{ username: req.user.username })
   } catch (err) {
     next(err);
