@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { TwitterUser } = require("../models/twitterUser");
 const { Post } = require("../models/post");
-const { render } = require("express/lib/response");
+
 //render all posts
 router.get("/", async (req, res, next) => {
   try {
@@ -14,18 +14,15 @@ router.get("/", async (req, res, next) => {
     //   .exec();
 
     //the inlogged user is following
-    const currentUser = await TwitterUser.findOne(
-      { id: req.user.id }
-      //{ following: 1 }
-    );
+    const currentUser = await TwitterUser.findById(req.user.id);
     const following = currentUser.following;
     const followingIds = following.map((f) => f.toString());
     const posts = await Post.find({ _creator: followingIds })
       .sort({
         createdAt: -1,
       })
-      .populate("_creator");
-
+      .populate("_creator")
+      .exec();
     //ids not include followingids
     const notyetfollowings = await TwitterUser.find({
       _id: { $nin: followingIds },
@@ -33,6 +30,7 @@ router.get("/", async (req, res, next) => {
 
     res.render("index.ejs", {
       username: req.user.username,
+      profileImg: req.user.img,
       posts,
       notyetfollowings,
     });
@@ -46,13 +44,15 @@ router.post("/", async (req, res, next) => {
   try {
     const username = req.user.username;
     const user = await TwitterUser.findOne({ username: username });
-    //console.log("user", user);
     const post = await new Post({
       _creator: user._id,
       content: req.body.content,
     });
     if (!post.content) {
       throw new Error("please fill content");
+    }
+    if (post.content.length > 140) {
+      throw new Error("no more than 140 letters");
     }
     post.save();
 
@@ -109,12 +109,12 @@ router.post("/:userId/follow", async (req, res, next) => {
         await user.updateOne({ $push: { followers: currentUserId } });
         //push brittsid in annas following
         await currentUser.updateOne({ $push: { following: userId } });
-        res.send("YOU ARE FOLLOWING THIS PERSON"); // have to send response, otherwise it´s keep pending
+        res.redirect(`/home/${userId}`);
       } else {
-        res.status(403).json("you already following this person");
+        res.redirect(`/home/${userId}`);
       }
     } else {
-      res.status(403).json("you can not follow yourself");
+      res.status(400).send("you can not follow yourself");
     }
   } catch (err) {
     res.sendStatus(500);
@@ -124,29 +124,16 @@ router.post("/:userId/follow", async (req, res, next) => {
 
 router.post("/:userId/unfollow", async (req, res, next) => {
   try {
-    //britt
     const userId = req.params.userId;
-    //anna as inlogged
     const currentUserId = req.user.id;
-    //if britt and anna is not the same person
-    if (userId !== currentUserId) {
-      //get britt from database
-      const user = await TwitterUser.findById(userId);
-      //get anna from database
-      const currentUser = await TwitterUser.findById(currentUserId);
-      //console.log(userId);
-      //if anna not alreadry following britt
-      if (currentUser.following.includes(userId)) {
-        //push annasid in britts followers
-        await user.updateOne({ $pull: { followers: currentUserId } });
-        //push brittsid in annas following
-        await currentUser.updateOne({ $pull: { following: userId } });
-        res.send("YOU ARE NOT FOLLOWING THIS PERSON NOW"); // have to send response, otherwise it´s keep pending
-      } else {
-        res.status(403).json("you are not following this person");
-      }
+    const user = await TwitterUser.findById(userId);
+    const currentUser = await TwitterUser.findById(currentUserId);
+    if (currentUser.following.includes(userId)) {
+      await user.updateOne({ $pull: { followers: currentUserId } });
+      await currentUser.updateOne({ $pull: { following: userId } });
+      res.redirect(`/home/${userId}`);
     } else {
-      res.status(403).json("you can not unfollow yourself");
+      res.redirect(`/home/${userId}`);
     }
   } catch (err) {
     res.sendStatus(500);

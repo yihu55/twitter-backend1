@@ -27,11 +27,13 @@ router.get("/", async (req, res, next) => {
     const user = await TwitterUser.findOne({ username: username });
     const countFollowing = await TwitterUser.aggregate([
       { $match: { username: username } },
-      { $project: { result: { $size: ["$following"] } } },
+      { $project: { result: { $size: { $ifNull: ["$following", []] } } } },
     ]);
+    //error MongoServerError: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+    //use the $ifNull operator here. It seems the field is either not an array or not present by the given error:
     const countFollowers = await TwitterUser.aggregate([
       { $match: { username: username } },
-      { $project: { result: { $size: ["$followers"] } } },
+      { $project: { result: { $size: { $ifNull: ["$followers", []] } } } },
     ]);
     console.log(countFollowers[0].result, countFollowing[0].result);
 
@@ -72,7 +74,4 @@ router.post("/", upload.single("image"), async (req, res, next) => {
   }
 });
 
-// router.post("/", (req, res) => {
-//   console.log(req.user.username);
-// });
 module.exports = router;

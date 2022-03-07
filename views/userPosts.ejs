@@ -2,8 +2,9 @@
 <%- include("partials/header.ejs",{title:"user posts"}) %>
 <%- include("partials/navigation.ejs") %>
  
-<!--home banner-->
+
 <div class="col-lg-6 col-md-9 col-sm-10 column2">
+    <!--home banner-->
     <div class="sticky-top bg-light">
         <h2 class="d-inline"><a href="#" class="home ps-3">Home</a></h2>
         <svg class="float-end text-primary mt-2 " xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
@@ -14,68 +15,60 @@
         </svg>
         <hr>
     </div>
-<!--post column-->
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <img src="../public/uploads/images/<%=img%>" alt="userprofileimage" class="img-fluid">
-            </div>
+    <!--post column-->
+    <div class="row">
+        <div class="col-12">
+            <img src="../public/uploads/images/<%=img%>" alt="userprofileimage" class="img-fluid">
         </div>
-
-        
-       
-         <% if( user.followers.includes(currentUser.id)){ %>
-            <div class="row">
-            <div class="col-12 d-flex justify-content-end">
-                <form action="/home/<%= userId%>/unfollow" method="POST">
-                <button class="btn btn-dark rounded">unfollow</button>
-                </form>
-            </div>
+    </div>
+    <!--follow unfollow buttons-->
+    <% if( user.followers.includes(currentUser.id)){ %>
+        <div class="row p-3">
+        <div class="col-12 d-flex justify-content-end">
+            <form action="/home/<%= userId%>/unfollow" method="POST">
+            <button class="btn btn-dark rounded">unfollow</button>
+            </form>
         </div>
-       <% } else {%>
-        <div class="row">
-            <div class="col-12 d-flex justify-content-end">
-                <form action="/home/<%= userId%>/follow" method="POST">
-                    <button class="btn btn-dark rounded">follow</button>
-                </form>
-           </div>
-       </div>
-       <%}%>
+    </div>
+    <% } else {%>
+    <div class="row p-3">
+        <div class="col-12 d-flex justify-content-end">
+            <form action="/home/<%= userId%>/follow" method="POST">
+                <button class="btn btn-dark rounded">follow</button>
+            </form>
+        </div>
+    </div>
+    <%}%> 
      
 
-    <% posts.forEach(post=>{%>
-    
-        <div class="row">
+    <% posts.forEach(post=>{%> 
+    <div class="row p-3">
+        
+        <div class="col-2">
+            <% if(post._creator.img){%>
+                <img class="icon" src="../public/uploads/images/<%= post._creator.img %>"/>
+            <%} else {%>
+                <img class="icon" src="https://pbs.twimg.com/profile_images/1455181325489553418/RbbUMWoQ_bigger.png"/>
+            <% }%>
             
-            <div class="col-2">
-                <% if(post._creator.img){%>
-                    <img class="icon" src="../public/uploads/images/<%= post._creator.img %>"/>
-                <%} else {%>
-                    <img class="icon" src="https://pbs.twimg.com/profile_images/1455181325489553418/RbbUMWoQ_bigger.png"/>
-                <% }%>
-                
-            </div>
-            <div class="col-10">
-                <p><a href="/users/<%=post._creator._id%>" class="twitter_name"></a><i class="fas fa-ellipsis-h float-end"></i> </p>
-            
-                <p><%= post.content %></p>
-                <p> created at <%= post.createdAt%></p>
-                
-                <div class="comments">
-                    <i class="far fa-comment">1</i>
-                    <i class="fas fa-retweet">2</i>
-                    <i class="far fa-heart">3</i>
-                    <i class="far fa-share-square"></i>
-                </div>
-            </div>
-
-            <hr>
         </div>
-       
-    
+        <div class="col-10">
+            <p><a href="/users/<%=post._creator._id%>" class="twitter_name"></a><i class="fas fa-ellipsis-h float-end"></i> </p>
+            <span><%= post.content %></span>
+            <p> created at <%= post.createdAt%></p>
+            
+            <div class="comments">
+                <i class="far fa-comment">1</i>
+                <i class="fas fa-retweet">2</i>
+                <i class="far fa-heart">3</i>
+                <i class="far fa-share-square"></i>
+            </div>
+        </div>
+
+        <hr>
+    </div>
     <%})%>
 </div>        
-</div>
 
 <%- include("partials/aside.ejs") %>
 <%- include("partials/footer.ejs") %>
