@@ -54,9 +54,8 @@ router.post("/", upload.single("image"), async (req, res, next) => {
   console.log(req.file);
   console.log(req.user.username);
   try {
-    //const user = { username: "anna" };
     const username = req.user.username;
-    console.log("USERNAME", username);
+    //console.log("USERNAME", username);
     await TwitterUser.updateOne(
       { username: username },
       {

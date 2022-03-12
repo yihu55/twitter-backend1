@@ -13,11 +13,21 @@ router.get("/", async (req, res, next) => {
     //   .populate("_creator")
     //   .exec();
 
-    //the inlogged user is following
+    //render posts the inlogged user is following
+    const userid = req.user.id;
     const currentUser = await TwitterUser.findById(req.user.id);
     const following = currentUser.following;
     const followingIds = following.map((f) => f.toString());
-    const posts = await Post.find({ _creator: followingIds })
+    followingIds.push(userid);
+    console.log("followingIds", followingIds);
+
+    console.log(typeof followingIds);
+    console.log("type of req.user.id", typeof req.user.id);
+    const posts = await Post.find({
+      //   _creator: { $in: [{ followingIds }, userid] },
+
+      _creator: followingIds,
+    })
       .sort({
         createdAt: -1,
       })
